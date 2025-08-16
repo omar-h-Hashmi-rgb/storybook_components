@@ -23,7 +23,6 @@ const InputField: React.FC<InputFieldProps> = ({
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
   const generatedId = useId();
   const inputId = id || generatedId;
 
@@ -31,13 +30,13 @@ const InputField: React.FC<InputFieldProps> = ({
   const hasError = invalid || !!errorMessage;
   const inputType = isPassword && showPassword ? 'text' : type;
 
-  const sizeClasses = {
+  const sizeClasses: Record<'sm' | 'md' | 'lg', string> = {
     sm: 'px-3 py-2 text-sm',
     md: 'px-4 py-3 text-base',
     lg: 'px-5 py-4 text-lg'
   };
 
-  const variantClasses = {
+  const variantClasses: Record<'filled' | 'outlined' | 'ghost', string> = {
     filled: clsx(
       'bg-gray-50 border-0 border-b-2',
       'dark:bg-gray-800',
@@ -104,8 +103,6 @@ const InputField: React.FC<InputFieldProps> = ({
           onChange={onChange}
           placeholder={placeholder}
           disabled={disabled}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
           className={clsx(
             'w-full transition-all duration-200 outline-none',
             'placeholder-gray-400 dark:placeholder-gray-500',

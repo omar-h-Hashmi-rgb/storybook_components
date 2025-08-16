@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { ChevronUp, ChevronDown, Loader2, CheckSquare, Square, Minus } from 'lucide-react';
 import { clsx } from 'clsx';
-import { DataTableProps, Column } from '../../types';
+import { DataTableProps } from '../../types';
 
 function DataTable<T extends Record<string, any>>({
   data,
@@ -65,7 +65,7 @@ function DataTable<T extends Record<string, any>>({
     if (!selectable) return;
 
     const allSelected = selectedRows.size === sortedData.length;
-    const newSelectedRows = allSelected ? new Set<number>() : new Set(sortedData.map((_, index) => index));
+    const newSelectedRows = allSelected ? new Set<number>() : new Set(sortedData.map((_, index: number) => index));
     
     setSelectedRows(newSelectedRows);
     
@@ -165,7 +165,7 @@ function DataTable<T extends Record<string, any>>({
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-            {sortedData.map((row, index) => (
+            {sortedData.map((row: T, index: number) => (
               <tr
                 key={index}
                 className={clsx(

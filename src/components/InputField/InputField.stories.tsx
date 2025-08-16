@@ -295,9 +295,9 @@ export const DarkMode: Story = {
     backgrounds: { default: 'dark' }
   },
   decorators: [
-    (Story) => (
+    (StoryComponent: React.ComponentType) => (
       <div className="dark">
-        <Story />
+        <StoryComponent />
       </div>
     )
   ]
@@ -325,7 +325,7 @@ export const LoadingSimulation: Story = {
         <InputField
           label="Email Validation"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
           placeholder="Enter email to validate"
           loading={isLoading}
           helperText={isLoading ? 'Checking email availability...' : 'Click validate to test loading'}
@@ -382,7 +382,7 @@ export const LiveSearchDemo: Story = {
         <InputField
           label="Live Search"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
           placeholder="Type to search products..."
           loading={isSearching}
           clearable

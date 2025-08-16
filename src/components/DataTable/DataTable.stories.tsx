@@ -277,9 +277,9 @@ export const ResponsiveTable: Story = {
     columns: productColumns as any
   },
   decorators: [
-    (Story) => (
+    (StoryComponent: React.ComponentType) => (
       <div className="max-w-2xl">
-        <Story />
+        <StoryComponent />
       </div>
     )
   ],
@@ -303,9 +303,9 @@ export const DarkMode: Story = {
     backgrounds: { default: 'dark' }
   },
   decorators: [
-    (Story) => (
+    (StoryComponent: React.ComponentType) => (
       <div className="dark">
-        <Story />
+        <StoryComponent />
       </div>
     )
   ]
@@ -320,15 +320,15 @@ export const LargeDataset: Story = {
       email: `user${i + 1}@example.com`,
       role: ['Admin', 'User', 'Moderator'][i % 3],
       status: Math.random() > 0.3 ? 'active' : 'inactive',
-      joinDate: new Date(2023, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1).toISOString().split('T')[0]
+      joinDate: new Date(2025, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1).toISOString().split('T')[0]
     })) as any,
     columns: userColumns as any,
     selectable: true
   },
   decorators: [
-    (Story) => (
+    (StoryComponent: React.ComponentType) => (
       <div className="max-h-96 overflow-auto">
-        <Story />
+        <StoryComponent />
       </div>
     )
   ],
@@ -361,7 +361,7 @@ export const InteractiveDemo: Story = {
             <div className="mt-3 p-2 bg-white dark:bg-gray-800 rounded border">
               <p className="text-sm font-medium">Selected Users:</p>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                {selectedRows.map(user => user.name).join(', ')}
+                {selectedRows.map((user: any) => user.name).join(', ')}
               </p>
             </div>
           )}
@@ -393,7 +393,7 @@ export const LoadingSimulation: Story = {
     const [isLoading, setIsLoading] = React.useState(false);
     const [data, setData] = React.useState<User[]>([]);
     
-    const loadData = () => {
+    const loadData = React.useCallback(() => {
       setIsLoading(true);
       setData([]);
       
@@ -402,11 +402,11 @@ export const LoadingSimulation: Story = {
         setData(sampleUsers);
         setIsLoading(false);
       }, 2000);
-    };
+    }, []);
     
     React.useEffect(() => {
       loadData();
-    }, []);
+    }, [loadData]);
     
     return (
       <div className="space-y-4">
@@ -446,7 +446,7 @@ export const AsyncDataDemo: Story = {
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState<string | null>(null);
     
-    const fetchUsers = async (shouldFail = false) => {
+    const fetchUsers = React.useCallback(async (shouldFail = false) => {
       setLoading(true);
       setError(null);
       
@@ -465,11 +465,11 @@ export const AsyncDataDemo: Story = {
       } finally {
         setLoading(false);
       }
-    };
+    }, []);
     
     React.useEffect(() => {
       fetchUsers();
-    }, []);
+    }, [fetchUsers]);
     
     if (error) {
       return (
